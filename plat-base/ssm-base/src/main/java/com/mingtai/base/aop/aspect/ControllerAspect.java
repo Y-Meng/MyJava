@@ -117,6 +117,11 @@ public class ControllerAspect {
         return result;
     }
 
+    /**
+     * 参数检查
+     * @param param 参数对象
+     * @throws ValidException
+     */
     private void validateParam(AnnotationHelper.Param param) throws ValidException{
 
         Annotation annotation = param.getAnnotation();
