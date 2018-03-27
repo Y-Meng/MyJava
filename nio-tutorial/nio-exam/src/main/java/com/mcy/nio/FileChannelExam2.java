@@ -15,7 +15,7 @@ public class FileChannelExam2 {
         String toPath = FileChannelExam2.class.getResource("/data/nio-data-to.txt").getPath();
 
         RandomAccessFile fromFile = new RandomAccessFile(fromPath, "rw");
-        FileChannel      fromChannel = fromFile.getChannel();
+        FileChannel fromChannel = fromFile.getChannel();
 
         RandomAccessFile toFile = new RandomAccessFile(toPath, "rw");
         FileChannel toChannel = toFile.getChannel();
