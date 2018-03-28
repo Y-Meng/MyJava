@@ -4,7 +4,7 @@ package com.mingtai.base.model;
  * Created by zkzc-mcy on 2017/9/12.
  * 接口返回结果封装类
  */
-public class ApiResult {
+public class ApiResult<T extends Object> {
 
     public static final int ERROR_VALID = 3;
     public static final int ERROR_AUTH = 2;
@@ -19,13 +19,13 @@ public class ApiResult {
 
     private String message = "success";
 
-    private Object data;
+    private T data;
 
     public ApiResult(){
 
     }
 
-    public ApiResult(Object data){
+    public ApiResult(T data){
         this.data = data;
     }
 
@@ -61,11 +61,11 @@ public class ApiResult {
         this.message = message;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 }
