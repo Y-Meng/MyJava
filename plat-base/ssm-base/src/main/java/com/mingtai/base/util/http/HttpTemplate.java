@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author zkzc-mcy create at 2018/4/3.
@@ -28,7 +29,7 @@ public class HttpTemplate {
         }
     }
 
-    public static void get(String url, HashMap<String, Object> params, Callback callback){
+    public static void get(String url, Map<String, Object> params, Callback callback){
         try {
             String result = new HttpRequest(url)
                     .setParams(params)
@@ -45,7 +46,7 @@ public class HttpTemplate {
         }
     }
 
-    public static void post(String url, HashMap<String, Object> params, Callback callback){
+    public static void post(String url, Map<String, Object> params, Callback callback){
         try {
             String result = new HttpRequest(url)
                     .setMethod(HttpRequest.POST)
