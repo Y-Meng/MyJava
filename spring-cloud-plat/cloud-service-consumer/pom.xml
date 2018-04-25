@@ -20,7 +20,7 @@
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
 
-        <!--负责调用负载均衡-->
+        <!--客户端负载均衡-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-ribbon</artifactId>
