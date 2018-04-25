@@ -29,6 +29,10 @@ public class HttpTemplate {
         }
     }
 
+    public static String get(String url) throws IOException {
+        return new HttpRequest(url).request();
+    }
+
     public static void get(String url, Map<String, Object> params, Callback callback){
         try {
             String result = new HttpRequest(url)
@@ -65,6 +69,14 @@ public class HttpTemplate {
         }
     }
 
+    public static String post(String url, Map<String,Object> params) throws IOException {
+        return new HttpRequest(url)
+                .setMethod(HttpRequest.POST)
+                .setParams(params)
+                .setHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8")
+                .request();
+    }
+
     public static void postJson(String url, String body, Callback callback){
         try {
             String result = new HttpRequest(url)
@@ -82,6 +94,14 @@ public class HttpTemplate {
                 callback.onFail(e);
             }
         }
+    }
+
+    public static String postJson(String url,String body) throws IOException {
+        return new HttpRequest(url)
+                .setMethod(HttpRequest.POST)
+                .setBody(body)
+                .setHeader("Content-Type", "application/json;charset=utf-8")
+                .request();
     }
 
     public interface Callback{
