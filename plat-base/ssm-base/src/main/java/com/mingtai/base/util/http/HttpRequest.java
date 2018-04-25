@@ -149,12 +149,14 @@ public class HttpRequest {
         StringBuilder urlParams = new StringBuilder();
         if (params != null) {
             for (String key : params.keySet()) {
-                if (urlParams.length() > 0) {
-                    urlParams.append("&");
+                if(params.get(key) != null && !"".equals(params.get(key))){
+                    if (urlParams.length() > 0) {
+                        urlParams.append("&");
+                    }
+                    urlParams.append(key);
+                    urlParams.append("=");
+                    urlParams.append(params.get(key));
                 }
-                urlParams.append(key);
-                urlParams.append("=");
-                urlParams.append(params.get(key));
             }
         }
         return urlParams.toString();
