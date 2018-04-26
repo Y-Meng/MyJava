@@ -6,6 +6,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * @author zkzc-mcy create at 2018/4/25.
+ * RestTemplate调用服务基本方式
  */
 @Service
 public class HelloService {
@@ -15,6 +16,6 @@ public class HelloService {
     RestTemplate restTemplate;
 
     public String hello(String name){
-        return restTemplate.getForObject("http://SERVICE-DEMO/hello?name="+name, String.class);
+        return restTemplate.getForObject("http://service-demo/hello?name="+name, String.class);
     }
 }
