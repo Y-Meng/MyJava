@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.util.StringUtils;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
@@ -20,11 +19,12 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 public class TaskScheduler {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(TaskScheduler.class);
-    private static final Map<String, TaskConfig> TASKS = new HashMap<>(12);
-    private static final Map<String, ScheduledFuture<?>> SCHEDULED_FUTURE = new HashMap<>(16);
-    private static final int POOL_SIZE = 64;
+    private static final Map<String, TaskConfig> TASKS = new HashMap<>(64);
+    private static final Map<String, ScheduledFuture<?>> SCHEDULED_FUTURE = new HashMap<>(64);
 
-    private static final ConcurrentTaskScheduler ct = new ConcurrentTaskScheduler(new ScheduledThreadPoolExecutor(POOL_SIZE));
+    private static final int CORE_POOL_SIZE = 16;
+
+    private static final ConcurrentTaskScheduler ct = new ConcurrentTaskScheduler(new ScheduledThreadPoolExecutor(CORE_POOL_SIZE));
 
     /**
      * 启动一个计划任务.
@@ -187,6 +187,7 @@ public class TaskScheduler {
      * 销毁线程池中的任务.
      */
     public static void destrory() {
+
         LOGGER.info("正在终止自动任务的线程池资源.");
         ScheduledExecutorService scheduledExecutor = (ScheduledExecutorService) ct.getConcurrentExecutor();
         try {
@@ -196,5 +197,21 @@ public class TaskScheduler {
         } finally {
             LOGGER.info("自动任务的线程池资源清理完成.");
         }
+    }
+
+    /**
+     * 关闭当前所有任务
+     */
+    public static void stopAll(){
+
+        for(String key : SCHEDULED_FUTURE.keySet()){
+            try {
+                ScheduledFuture<?> scheduledFuture = SCHEDULED_FUTURE.get(key);
+                scheduledFuture.cancel(false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        SCHEDULED_FUTURE.clear();
     }
 }
