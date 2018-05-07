@@ -83,7 +83,7 @@ public class TaskScheduler {
         try {
             ScheduledFuture<?> scheduledFuture = SCHEDULED_FUTURE.remove(taskKey);
             if (scheduledFuture == null) {
-                throw new TaskException("任务key:" + taskKey + "不存在.");
+                LOGGER.error("任务key:" + taskKey + "不存在.");
             } else {
                 if (!scheduledFuture.isCancelled()) {
                     /** false 表示当前任务若正在执行，则待其执行结束，再结束此任务. */
@@ -116,13 +116,12 @@ public class TaskScheduler {
 
             /** 1 停止任务. */
             ScheduledFuture<?> scheduledFuture = SCHEDULED_FUTURE.remove(config.getKey());
-            scheduledFuture.cancel(false);
-
-            /** 2 重启任务. */
-            start(task);
-        }else {
-            start(config);
+            if(scheduledFuture != null){
+                scheduledFuture.cancel(false);
+            }
         }
+        /** 2 重启任务. */
+        start(config);
     }
 
     /**
