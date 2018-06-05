@@ -57,6 +57,7 @@ public abstract class BaseTask implements Runnable{
                 execute();
                 afterExecute();
             }catch (Exception e){
+                e.printStackTrace();
                 taskConfig.setFailTimes(taskConfig.getFailTimes() + 1);
                 taskConfig.setLastFailTime(new Date());
                 taskConfig.setLastFailInfo(e.getMessage());
