@@ -11,6 +11,8 @@ public abstract class BaseTask implements Runnable{
 
     protected String taskName = "未命名任务";
 
+    protected Date startTime;
+
     public String getTaskName() {
         return taskName;
     }
@@ -23,9 +25,7 @@ public abstract class BaseTask implements Runnable{
      * 执行任务前
      */
     protected void preExecute(){
-        if(taskConfig != null){
-            taskConfig.setLastExecuteTime(new Date());
-        }
+        startTime = new Date();
     }
 
     /**
@@ -38,6 +38,7 @@ public abstract class BaseTask implements Runnable{
      */
     protected void afterExecute(){
         if(taskConfig != null){
+            taskConfig.setLastExecuteTime(startTime);
             taskConfig.setExecuteTimes(taskConfig.getExecuteTimes() + 1);
             saveTaskConfig(taskConfig);
         }
