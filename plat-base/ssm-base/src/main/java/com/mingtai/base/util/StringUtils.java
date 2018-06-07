@@ -15,10 +15,12 @@ public class StringUtils {
      * @return
      */
     public static String[] split(String input, String separator) {
-        if (input == null)
+        if (input == null) {
             return null;
-        if (input.equals(""))
+        }
+        if (input.equals("")) {
             return EMPTY_STRING;
+        }
         if ((separator == null) || ("".equals(separator))) {
             return new String[]{input};
         }
@@ -45,8 +47,9 @@ public class StringUtils {
      * @return
      */
     public static String[] splitStrictly(String input, String seperator) {
-        if (input == null)
+        if (input == null) {
             return null;
+        }
         if (input.equals("")) {
             return EMPTY_STRING;
         }
@@ -55,7 +58,7 @@ public class StringUtils {
         int beginPos = 0;
         while (true) {
             cursor = input.indexOf(seperator, beginPos);
-            if (cursor == -1) break;
+            if (cursor == -1) {break;}
             list.add(input.substring(beginPos, cursor));
             beginPos = cursor + 1;
         }
@@ -64,14 +67,20 @@ public class StringUtils {
     }
 
     public static boolean isBlank(String input) {
-        if ((input == null) || ("".equals(input)))
+        if ((input == null) || ("".equals(input))) {
             return true;
+        }
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
-            if ((c != ' ') && (c != '\t') && (c != '\r') && (c != '\n'))
+            if ((c != ' ') && (c != '\t') && (c != '\r') && (c != '\n')) {
                 return false;
+            }
         }
         return true;
+    }
+
+    public static boolean isNotBlank(String input){
+        return !isBlank(input);
     }
 
     public static String trimTail(StringBuffer sb, char tail) {
@@ -195,10 +204,12 @@ public class StringUtils {
             if (preStr.length() == 1) {
                 result += strs[i];
             } else {
-                if (i == 0)
+                if (i == 0) {
                     result += strs[i];
-                else
+                }
+                else {
                     result += capitalize(strs[i]);
+                }
             }
             preStr = strs[i];
         }
@@ -346,7 +357,7 @@ public class StringUtils {
      * @return the converted name
      */
     public static String toUnderscoreName(String name, final String profix) {
-        if (name == null) return null;
+        if (name == null) {return null;}
         String filteredName = name;
         //去掉多余的前缀
         if (!"".equals(profix) && profix != null) {
