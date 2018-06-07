@@ -3,19 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>nio-tutorial</artifactId>
+        <artifactId>nio-exam</artifactId>
         <groupId>com.mcy</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../nio-exam/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mcy</groupId>
-    <artifactId>nio-exam</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>netty-server</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>../netty-server</module>
-    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.25.Final</version>
+        </dependency>
+    </dependencies>
 
 
 </project>
