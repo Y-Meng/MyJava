@@ -80,7 +80,16 @@ public class StringUtils {
     }
 
     public static boolean isNotBlank(String input){
-        return !isBlank(input);
+        if ((input == null) || ("".equals(input))) {
+            return false;
+        }
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if ((c != ' ') || (c != '\t') || (c != '\r') || (c != '\n')) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static String trimTail(StringBuffer sb, char tail) {
