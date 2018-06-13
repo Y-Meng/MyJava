@@ -38,10 +38,9 @@ public abstract class BaseTask implements Runnable{
      */
     protected void afterExecute(){
         if(taskConfig != null){
-            if(startTime == null || startTime.equals(taskConfig.getLastExecuteTime())){
-                startTime = new Date();
+            if(startTime != null){
+                taskConfig.setLastExecuteTime(startTime);
             }
-            taskConfig.setLastExecuteTime(startTime);
             taskConfig.setExecuteTimes(taskConfig.getExecuteTimes() + 1);
             saveTaskConfig(taskConfig);
         }
