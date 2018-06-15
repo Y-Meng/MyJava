@@ -1,8 +1,8 @@
 package com.mingtai.base.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mingtai.base.util.ReflectUtils;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -53,6 +53,7 @@ public class TreeNode<T> implements Serializable {
      * 节点的父节点
      */
     private TreeNode<T> parent;
+
     public TreeNode() {
     }
     public TreeNode(Integer id, String name) {
@@ -124,8 +125,9 @@ public class TreeNode<T> implements Serializable {
      * @param child 子节点
      */
     public void addChild(Integer index, TreeNode<T> child) {
-        if (children == null)
+        if (children == null) {
             children = new ArrayList<>();
+        }
         child.setParent(this);
         child.setDeep(this.deep + 1);
         Integer id = child.getId();
@@ -165,6 +167,7 @@ public class TreeNode<T> implements Serializable {
      *
      * @return
      */
+    @JsonIgnore
     public List<TreeNode> getLeaves() {
         List<TreeNode> leaves = new ArrayList();
         if (hasChildren()) {
@@ -259,7 +262,7 @@ public class TreeNode<T> implements Serializable {
             while (iterator.hasNext()) {
                 Object item = iterator.next();
                 Integer pid = Integer.parseInt(ReflectUtils.getFieldValue(item, pidFiled).toString());
-                if (pid == rootId) {
+                if (pid.equals(rootId)) {
                     Integer id = Integer.parseInt(ReflectUtils.getFieldValue(item, idFiled).toString());
                     root.addChild(id, ReflectUtils.getFieldValue(item, nameFiled).toString(), item);
                     iterator.remove();
