@@ -1,7 +1,6 @@
 package com.mingtai.base.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mingtai.base.util.ReflectUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -167,16 +166,15 @@ public class TreeNode<T> implements Serializable {
      *
      * @return
      */
-    @JsonIgnore
-    public List<TreeNode> getLeaves() {
+    public List<TreeNode> leaves() {
         List<TreeNode> leaves = new ArrayList();
         if (hasChildren()) {
             for (TreeNode node : children) {
                 if (!node.hasChildren()) {
                     leaves.add(node);
                 } else {
-                    if (node.getLeaves() != null) {
-                        leaves.addAll(node.getLeaves());
+                    if (node.leaves() != null) {
+                        leaves.addAll(node.leaves());
                     }
                 }
             }
@@ -273,7 +271,7 @@ public class TreeNode<T> implements Serializable {
             int maxDeep = 4;
             int i = 0;
             while (list.size() > 0 && i < maxDeep) {
-                List<TreeNode> leaves = root.getLeaves();
+                List<TreeNode> leaves = root.leaves();
                 if(leaves != null){
                     for (TreeNode leaf : leaves) {
                         iterator = list.iterator();
