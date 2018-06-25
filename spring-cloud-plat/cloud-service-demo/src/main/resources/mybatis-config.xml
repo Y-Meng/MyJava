@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!--
+		说明：如果xxMapper.xml配置文件放在和xxMapper.java同一目录下，mappers也可以省略，
+		因为org.mybatis.spring.mapper.MapperFactoryBean默认会去查找与xxMapper.java相同目录和名称的xxMapper.xml
+	-->
+	<!--<mappers>   -->
+	<!--</mappers>-->
+
+	<settings>
+		<setting name="cacheEnabled" value="true"/>
+
+		<!-- 打印查询语句 -->
+		<!--<setting name="logImpl" value="STDOUT_LOGGING" />-->
+	</settings>
+
+</configuration>  
