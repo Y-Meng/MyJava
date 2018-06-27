@@ -10,21 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mingtai</groupId>
-    <artifactId>cloud-service-consumer</artifactId>
+    <artifactId>cloud-service-demo-interface</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-
-        <!--客户端负载均衡-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-ribbon</artifactId>-->
-        <!--</dependency>-->
 
         <!-- 声明式、模板化的HTTP客户端，用于微服务调用，包含ribbon依赖 -->
         <dependency>
@@ -33,19 +22,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.mingtai</groupId>
-            <artifactId>cloud-service-demo-interface</artifactId>
+            <artifactId>plat-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

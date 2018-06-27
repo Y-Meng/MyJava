@@ -13,6 +13,7 @@
         <module>cloud-service-demo</module>
         <module>cloud-service-consumer</module>
         <module>plat-common</module>
+        <module>cloud-service-demo-interface</module>
     </modules>
 
     <parent>
