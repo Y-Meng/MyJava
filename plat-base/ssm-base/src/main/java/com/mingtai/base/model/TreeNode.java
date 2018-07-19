@@ -3,9 +3,7 @@ package com.mingtai.base.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mingtai.base.util.ReflectUtils;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by zkzc-mcy on 2017/9/20.
@@ -252,9 +250,15 @@ public class TreeNode<T> implements Serializable {
     public static TreeNode createTreeByList(List list,String idFiled,String pidFiled,String nameFiled)throws IllegalAccessException{
         return createTreeByList(0,"root", list, idFiled, pidFiled, nameFiled);
     }
-    public static TreeNode createTreeByList(Integer rootId,String rootName,List list, String idFiled, String pidFiled, String nameFiled) throws IllegalAccessException {
+    public static TreeNode createTreeByList(Integer rootId,String rootName,List srcList, String idFiled, String pidFiled, String nameFiled) throws IllegalAccessException {
+
+        // 复制一份，迭代会将原列表清空
+        List list = srcList.subList(0, srcList.size());
+
         TreeNode<Object> root = new TreeNode<>(rootId, rootName);
+
         if (list != null && list.size() > 0) {
+
             Iterator<Object> iterator = list.iterator();
             // 一级子节点
             while (iterator.hasNext()) {
@@ -267,10 +271,11 @@ public class TreeNode<T> implements Serializable {
                 }
             }
 
-            // 高层节点，默认总共支持5层，防止游离节点问题陷入死循环
-            int maxDeep = 4;
-            int i = 0;
-            while (list.size() > 0 && i < maxDeep) {
+            // 高层节点，当列表中数据不再减少时停止，防止游离节点问题陷入死循环
+            int lastSize = 0;
+            do {
+                lastSize = list.size();
+
                 List<TreeNode> leaves = root.leaves();
                 if(leaves != null){
                     for (TreeNode leaf : leaves) {
@@ -286,8 +291,7 @@ public class TreeNode<T> implements Serializable {
                         }
                     }
                 }
-                i++;
-            }
+            } while (lastSize > list.size());
         }
         return root;
     }

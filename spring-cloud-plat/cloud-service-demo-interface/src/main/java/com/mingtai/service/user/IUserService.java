@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author zkzc-mcy create at 2018/6/27.
  */
 
-@RequestMapping("/user")
 @FeignClient("service-demo")
+@RequestMapping("/user")
 public interface IUserService {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
