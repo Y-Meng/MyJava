@@ -15,6 +15,7 @@ public class SHA1Token implements Token {
      * @param key   token 秘钥
      * @return
      */
+    @Override
     public String generateToken(String input, String key) {
 
         String data = null;
@@ -55,6 +56,7 @@ public class SHA1Token implements Token {
      * @param token
      * @return
      */
+    @Override
     public boolean checkToken(String input, String key, String token) {
         if(input!=null && key != null && token!=null){
             return token.equals(generateToken(input,key));

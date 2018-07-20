@@ -1,7 +1,10 @@
 package com.mingtai.base.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,18 +13,21 @@ import java.util.List;
  */
 public class Page<T> implements Serializable{
 
-    public static final String ASC = "ASC";
-    public static final String DESC = "DESC";
-
     private Integer pageNumber = 1;
 
     private Integer pageSize = 20;
 
     private Integer index = 0;
 
-    private String sort = "create_time";
+    private String orderBy;
 
-    private String order = DESC;// asc/desc
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date startTime;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date endTime;
 
     private Long total = 0L; //记录总数
 
@@ -36,6 +42,8 @@ public class Page<T> implements Serializable{
     }
 
     public Integer getIndex() {
+
+        this.index = (this.pageNumber -1) * this.pageSize;
         return index;
     }
 
@@ -45,7 +53,6 @@ public class Page<T> implements Serializable{
 
     public void setPageNumber(Integer pageNum) {
         this.pageNumber = pageNum;
-        this.index = (this.pageNumber -1) * this.pageSize;
     }
 
     public Integer getPageSize() {
@@ -54,23 +61,6 @@ public class Page<T> implements Serializable{
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
-        this.index = (this.pageNumber -1) * this.pageSize;
-    }
-
-    public String getSort() {
-        return sort;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
-    }
-
-    public String getOrder() {
-        return order;
-    }
-
-    public void setOrder(String order) {
-        this.order = order;
     }
 
     public Long getTotal() {
@@ -87,5 +77,29 @@ public class Page<T> implements Serializable{
 
     public void setRows(List<T> result) {
         this.rows = result;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

@@ -191,6 +191,7 @@ public class TreeNode<T> implements Serializable {
      * @param nodeFilter
      */
     public boolean filter(NodeFilter nodeFilter){
+
         if(hasChildren()){
             Iterator<TreeNode> iterator = children.iterator();
             while (iterator.hasNext()){
