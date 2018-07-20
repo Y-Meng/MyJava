@@ -57,6 +57,11 @@ public class TreeNode<T> implements Serializable {
         this.id = id;
         this.name = name;
     }
+    public TreeNode(Integer id, String name, T data){
+        this.id = id;
+        this.name = name;
+        this.data = data;
+    }
     public String getType() {
         return type;
     }
@@ -250,48 +255,40 @@ public class TreeNode<T> implements Serializable {
     public static TreeNode createTreeByList(List list,String idFiled,String pidFiled,String nameFiled)throws IllegalAccessException{
         return createTreeByList(0,"root", list, idFiled, pidFiled, nameFiled);
     }
-    public static TreeNode createTreeByList(Integer rootId,String rootName,List srcList, String idFiled, String pidFiled, String nameFiled) throws IllegalAccessException {
-
-        // 复制一份，迭代会将原列表清空
-        List list = srcList.subList(0, srcList.size());
+    public static TreeNode createTreeByList(Integer rootId,String rootName,List list, String idFiled, String pidFiled, String nameFiled) throws IllegalAccessException {
 
         TreeNode<Object> root = new TreeNode<>(rootId, rootName);
 
         if (list != null && list.size() > 0) {
 
-            Iterator<Object> iterator = list.iterator();
-            // 一级子节点
-            while (iterator.hasNext()) {
-                Object item = iterator.next();
+            // 节点索引，hashMap默认容量为 16
+            Map<Integer, TreeNode> nodeMap = new HashMap<>(list.size() * 2);
+
+            for (Object item : list) {
+                Integer id = Integer.parseInt(ReflectUtils.getFieldValue(item, idFiled).toString());
                 Integer pid = Integer.parseInt(ReflectUtils.getFieldValue(item, pidFiled).toString());
+                String name = ReflectUtils.getFieldValue(item, nameFiled).toString();
+                TreeNode node = new TreeNode(id, name, item);
                 if (pid.equals(rootId)) {
-                    Integer id = Integer.parseInt(ReflectUtils.getFieldValue(item, idFiled).toString());
-                    root.addChild(id, ReflectUtils.getFieldValue(item, nameFiled).toString(), item);
-                    iterator.remove();
+                    root.addChild(node);
                 }
+                nodeMap.put(id, node);
             }
 
-            // 高层节点，当列表中数据不再减少时停止，防止游离节点问题陷入死循环
-            int lastSize = 0;
-            do {
-                lastSize = list.size();
+            for (Object item : list) {
+                Integer id = Integer.parseInt(ReflectUtils.getFieldValue(item, idFiled).toString());
+                Integer pid = Integer.parseInt(ReflectUtils.getFieldValue(item, pidFiled).toString());
+                String name = ReflectUtils.getFieldValue(item, nameFiled).toString();
+                TreeNode node = new TreeNode(id, name, item);
 
-                List<TreeNode> leaves = root.leaves();
-                if(leaves != null){
-                    for (TreeNode leaf : leaves) {
-                        iterator = list.iterator();
-                        while (iterator.hasNext()) {
-                            Object item = iterator.next();
-                            int pid = Integer.parseInt(ReflectUtils.getFieldValue(item, pidFiled).toString());
-                            if (pid == leaf.getId()) {
-                                int id = Integer.parseInt(ReflectUtils.getFieldValue(item, idFiled).toString());
-                                leaf.addChild(id, ReflectUtils.getFieldValue(item, nameFiled).toString(), item);
-                                iterator.remove();
-                            }
-                        }
-                    }
+                TreeNode pNode = nodeMap.get(pid);
+                if (pNode != null) {
+                    pNode.addChild(node);
+                }else {
+                    // 游离节点加入根节点获取抛弃
+                    // root.addChild(node); // 抛弃游离节点
                 }
-            } while (lastSize > list.size());
+            }
         }
         return root;
     }
