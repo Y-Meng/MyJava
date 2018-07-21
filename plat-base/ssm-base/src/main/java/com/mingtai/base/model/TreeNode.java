@@ -278,7 +278,7 @@ public class TreeNode<T> implements Serializable {
 
             for (TreeNode item : nodeMap.values()) {
 
-                if(item.getParent() != null) {
+                if(item.getParent() == null) {
                     Integer pid = Integer.parseInt(ReflectUtils.getFeildPkValue(item.getData(), pidFiled).toString());
                     TreeNode pNode = nodeMap.get(pid);
                     if (pNode != null) {
