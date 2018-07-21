@@ -276,18 +276,17 @@ public class TreeNode<T> implements Serializable {
                 nodeMap.put(id, node);
             }
 
-            for (Object item : list) {
-                Integer id = Integer.parseInt(ReflectUtils.getFieldValue(item, idFiled).toString());
-                Integer pid = Integer.parseInt(ReflectUtils.getFieldValue(item, pidFiled).toString());
-                String name = ReflectUtils.getFieldValue(item, nameFiled).toString();
-                TreeNode node = new TreeNode(id, name, item);
+            for (TreeNode item : nodeMap.values()) {
 
-                TreeNode pNode = nodeMap.get(pid);
-                if (pNode != null) {
-                    pNode.addChild(node);
-                }else {
-                    // 游离节点加入根节点获取抛弃
-                    // root.addChild(node); // 抛弃游离节点
+                if(item.getParent() != null) {
+                    Integer pid = Integer.parseInt(ReflectUtils.getFeildPkValue(item.getData(), pidFiled).toString());
+                    TreeNode pNode = nodeMap.get(pid);
+                    if (pNode != null) {
+                        pNode.addChild(item);
+                    } else {
+                        // 游离节点加入根节点获取抛弃
+                        // root.addChild(node); // 抛弃游离节点
+                    }
                 }
             }
         }
