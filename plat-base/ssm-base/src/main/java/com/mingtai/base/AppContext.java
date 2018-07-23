@@ -4,11 +4,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * @author  zkzc-mcy on 2017/10/17.
  * spring 应用环境变量工具类
  */
+@Component
 public class AppContext implements ApplicationContextAware {
 
     /**
