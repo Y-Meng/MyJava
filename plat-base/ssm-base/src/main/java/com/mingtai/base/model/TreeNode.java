@@ -262,8 +262,8 @@ public class TreeNode<T> implements Serializable {
 
         if (list != null && list.size() > 0) {
 
-            // 节点索引，hashMap默认容量为 16
-            Map<Integer, TreeNode> nodeMap = new HashMap<>(list.size() * 2);
+            // 节点索引，LinkedHashMap 保证按插入顺序遍历
+            Map<Integer, TreeNode> nodeMap = new LinkedHashMap<>();
 
             for (Object item : list) {
                 Integer id = Integer.parseInt(ReflectUtils.getFieldValue(item, idFiled).toString());
