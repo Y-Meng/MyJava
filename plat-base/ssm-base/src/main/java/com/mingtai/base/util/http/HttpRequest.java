@@ -16,8 +16,6 @@ import java.util.Map;
  */
 public class HttpRequest {
 
-    static final Logger LOGGER = LoggerFactory.getLogger(HttpRequest.class);
-
     public static final String GET = "GET";
     public static final String POST = "POST";
 
@@ -93,8 +91,6 @@ public class HttpRequest {
         }
 
         URL realURL = new URL(url);
-
-        LOGGER.info(realURL.toString());
 
         URLConnection conn = realURL.openConnection();
 
