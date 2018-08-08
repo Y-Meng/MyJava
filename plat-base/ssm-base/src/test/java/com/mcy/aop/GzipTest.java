@@ -2,9 +2,10 @@ package com.mcy.aop;
 
 import com.mingtai.base.util.GzipUtil;
 import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @author zkzc-mcy create at 2018/8/8.
@@ -42,6 +43,24 @@ public class GzipTest {
 
             String str = new String(uncompress, "utf-8");
             System.out.println("解压后内容：" + str);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void test(){
+        try {
+            byte[] xiyouji = Files.readAllBytes(Paths.get("C:\\Users\\zkzc-mcy\\Desktop\\西游记.txt"));
+
+            System.out.println("压缩前体积：" + xiyouji.length/1024 + "k");
+
+            byte[] compress = GzipUtil.compress(xiyouji);
+            System.out.println("压缩后体积：" + compress.length/1024 + "k");
+
+            byte[] uncompress = GzipUtil.uncompress(new ByteArrayInputStream(compress));
+            System.out.println("解压后体积：" + uncompress.length/1024 + "k");
+
         } catch (IOException e) {
             e.printStackTrace();
         }

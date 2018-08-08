@@ -13,7 +13,23 @@ import java.util.zip.GZIPOutputStream;
 public class GzipUtil {
 
     /**
-     * gzip压缩
+     * 压缩数据
+     * @param bytes
+     * @return
+     * @throws IOException
+     */
+    public static byte[] compress(byte[] bytes) throws IOException{
+
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+             GZIPOutputStream gzip = new GZIPOutputStream(out)){
+            gzip.write(bytes);
+            gzip.close();
+            return out.toByteArray();
+        }
+    }
+
+    /**
+     * gzip压缩字符串
      * @param content
      * @param charset
      * @return
@@ -22,12 +38,7 @@ public class GzipUtil {
     public static byte[] compress(String content, String charset) throws IOException {
 
         Assert.notNull(content, "null compress error");
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream();
-             GZIPOutputStream gzip = new GZIPOutputStream(out)){
-            gzip.write(content.getBytes(charset));
-            gzip.close();
-            return out.toByteArray();
-        }
+        return compress(content.getBytes(charset));
     }
 
     /**
