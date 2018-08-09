@@ -37,7 +37,7 @@ public class GzipUtil {
      */
     public static byte[] compress(String content, String charset) throws IOException {
 
-        Assert.notNull(content, "null compress error");
+        Assert.notNull(content, "null content error");
         return compress(content.getBytes(charset));
     }
 
