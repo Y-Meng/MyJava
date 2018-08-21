@@ -24,6 +24,26 @@ public class HttpRequest {
     private Map<String, Object> params;
     private Map<String,String> headers;
     private String body;
+    private int connectTimeout = 30000;
+    private int readTimeout = 60000;
+
+    public int getConnectTimeout() {
+        return connectTimeout;
+    }
+
+    public HttpRequest setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+        return this;
+    }
+
+    public int getReadTimeout() {
+        return readTimeout;
+    }
+
+    public HttpRequest setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
+        return this;
+    }
 
     public HttpRequest(String url){
         this.url = url;
@@ -80,8 +100,32 @@ public class HttpRequest {
     }
 
 
-    /** 执行请求 */
+    /** 执行请求，返回字符串结果 */
     public String request() throws IOException {
+
+        return request("utf-8");
+    }
+
+    /** 执行请求，返回字符串结果 */
+    public String request(String charsetName) throws IOException{
+
+        InputStream inputStream = getStream();
+
+        // 读取数据
+        StringBuilder result = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, charsetName));
+        String line = br.readLine();
+        while (line != null){
+            result.append(line+"\n");
+            line = br.readLine();
+        }
+
+        br.close();
+        return result.toString();
+    }
+
+    /** 获取接口输入流 */
+    public InputStream getStream() throws IOException {
 
         // GET 请求拼接url
         if(GET.equals(this.method)) {
@@ -93,6 +137,9 @@ public class HttpRequest {
         URL realURL = new URL(url);
 
         URLConnection conn = realURL.openConnection();
+
+        conn.setConnectTimeout(connectTimeout);
+        conn.setReadTimeout(readTimeout);
 
         // 设置通用的请求头属性
         if(headers != null){
@@ -120,17 +167,7 @@ public class HttpRequest {
             writer.close();
         }
 
-        // 读取数据
-        StringBuilder result = new StringBuilder();
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"utf-8"));
-        String line = br.readLine();
-        while (line != null){
-            result.append(line+"\n");
-            line = br.readLine();
-        }
-
-        br.close();
-        return result.toString();
+        return conn.getInputStream();
     }
 
     /**
