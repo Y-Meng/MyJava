@@ -6,4 +6,6 @@ package com.mengcy.normal;
 public interface IWorkerService {
 
     void doSomething();
+
+    String saySomething();
 }

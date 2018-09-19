@@ -16,10 +16,12 @@ public class JDKProxy<T> implements InvocationHandler{
         return (T) Proxy.newProxyInstance(t.getClass().getClassLoader(), t.getClass().getInterfaces(), this);
     }
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+
         System.out.println("dynamic proxy start");
-        method.invoke(target, args);
+        Object result = method.invoke(target, args);
         System.out.println("dynamic proxy end");
-        return null;
+        return result;
     }
 }

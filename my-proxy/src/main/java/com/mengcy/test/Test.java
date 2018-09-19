@@ -11,19 +11,32 @@ import com.mengcy.normal.WorkerServiceImpl;
  */
 public class Test {
 
-    public static void main(String[] args){
-        // 1.静态代理
+    public static void testStatic(){
         WorkerProxy proxy = new WorkerProxy(new WorkerServiceImpl());
         proxy.doSomething();
+    }
 
-        // 2.动态代理（基于反射）
+    public static void testDynamic(){
         IWorkerService workerProxy = new JDKProxy<IWorkerService>().getProxy(new WorkerServiceImpl());
         workerProxy.doSomething();
+        System.out.println(workerProxy.saySomething());
+    }
 
-        // 3.cglib代理（基于生成子类）
+    public static void testCglib(){
         IWorkerService cglibProxy = new CglibProxy().getProxy(WorkerServiceImpl.class);
         cglibProxy.doSomething();
         WorkerServiceImpl workerService = new CglibProxy().getProxy(WorkerServiceImpl.class);
         workerService.doSomething();
+    }
+
+    public static void main(String[] args){
+        // 1.静态代理
+        //testStatic();
+
+        // 2.动态代理（基于反射）
+        testDynamic();
+
+        // 3.cglib代理（基于生成子类）
+        //testCglib();
     }
 }
