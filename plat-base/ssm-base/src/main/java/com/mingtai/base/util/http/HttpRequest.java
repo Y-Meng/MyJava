@@ -1,12 +1,9 @@
 package com.mingtai.base.util.http;
 
 import com.mingtai.base.util.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +15,12 @@ public class HttpRequest {
 
     public static final String GET = "GET";
     public static final String POST = "POST";
+    public static final String DELETE = "DELETE";
+    public static final String PUT = "PUT";
+
+    public static final String USER_AGENT = "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)";
+
+    private String userAgent;
 
     private String url;
     private String method = "GET";
@@ -99,6 +102,11 @@ public class HttpRequest {
         return this;
     }
 
+    /** 设置代理 */
+    public HttpRequest setUserAgent(String userAgent){
+        this.userAgent = userAgent;
+        return this;
+    }
 
     /** 执行请求，返回字符串结果 */
     public String request() throws IOException {
@@ -128,7 +136,7 @@ public class HttpRequest {
     public InputStream getStream() throws IOException {
 
         // GET 请求拼接url
-        if(GET.equals(this.method)) {
+        if(GET.equals(this.method) || DELETE.equals(this.method) || PUT.equals(this.method)) {
             if(params != null && params.size() > 0) {
                 url = url + "?" + getParamsString();
             }
@@ -136,10 +144,16 @@ public class HttpRequest {
 
         URL realURL = new URL(url);
 
-        URLConnection conn = realURL.openConnection();
+        HttpURLConnection conn = (HttpURLConnection) realURL.openConnection();
 
         conn.setConnectTimeout(connectTimeout);
         conn.setReadTimeout(readTimeout);
+        conn.setRequestMethod(this.method);
+
+        // 浏览器伪装
+        if(StringUtils.isNotBlank(userAgent)){
+            conn.setRequestProperty("User-Agent", userAgent);
+        }
 
         // 设置通用的请求头属性
         if(headers != null){

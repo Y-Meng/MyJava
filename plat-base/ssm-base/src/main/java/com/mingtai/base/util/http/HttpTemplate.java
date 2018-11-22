@@ -2,9 +2,7 @@ package com.mingtai.base.util.http;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -108,5 +106,9 @@ public class HttpTemplate {
         /** 处理返回数据 */
         void onSuccess(String result);
         void onFail(Exception error);
+    }
+
+    public static void main(String[] args){
+
     }
 }
