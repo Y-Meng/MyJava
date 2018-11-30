@@ -124,7 +124,7 @@ public class HttpRequest {
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, charsetName));
         String line = br.readLine();
         while (line != null){
-            result.append(line+"\n");
+            result.append(line);
             line = br.readLine();
         }
 
