@@ -4,6 +4,7 @@ import com.mingtai.base.util.StringUtils;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -188,7 +189,7 @@ public class HttpRequest {
      * 构造参数字符串
      * @return
      */
-    private String getParamsString() {
+    private String getParamsString() throws UnsupportedEncodingException {
 
         StringBuilder urlParams = new StringBuilder();
         if (params != null) {
@@ -199,7 +200,7 @@ public class HttpRequest {
                     }
                     urlParams.append(key);
                     urlParams.append("=");
-                    urlParams.append(params.get(key));
+                    urlParams.append(URLEncoder.encode(params.get(key).toString(), "utf8"));
                 }
             }
         }
