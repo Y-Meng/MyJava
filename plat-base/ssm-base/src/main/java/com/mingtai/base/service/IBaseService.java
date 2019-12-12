@@ -1,6 +1,8 @@
 package com.mingtai.base.service;
 
 import com.mingtai.base.model.Page;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ public interface IBaseService<T,PK,E> {
 
     T getById(PK id);
 
-    List<T> listByFilter(T filter);
+    List<T> listByFilter(T filter, Date startTime, Date endTime);
 
     List<T> listByExample(E example);
 
@@ -35,5 +37,5 @@ public interface IBaseService<T,PK,E> {
 
     Page<T> pageByExample(Page page, E example);
 
-    E createExample(T filter);
+    E createExample(T filter, Date startTime, Date endTime);
 }

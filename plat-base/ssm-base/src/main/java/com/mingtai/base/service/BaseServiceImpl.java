@@ -5,6 +5,7 @@ import com.mingtai.base.model.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -155,8 +156,8 @@ public abstract class BaseServiceImpl<D,T,PK,E> implements IBaseService<T,PK,E>{
     }
 
     @Override
-    public List<T> listByFilter(T filter) {
-        E example = createExample(filter);
+    public List<T> listByFilter(T filter, Date startTime, Date endTime) {
+        E example = createExample(filter, startTime, endTime);
         return listByExample(example);
     }
 
@@ -196,7 +197,7 @@ public abstract class BaseServiceImpl<D,T,PK,E> implements IBaseService<T,PK,E>{
 
     @Override
     public Page<T> pageByFilter(Page page, T filter) {
-        E example = createExample(filter);
+        E example = createExample(filter, page.getStartTime(), page.getEndTime());
         return pageByExample(page, example);
     }
 
